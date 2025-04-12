@@ -1,7 +1,7 @@
 
-# 📄 ChatGPT API Documentation
+# 📄 ChatGPT API Documentation for Cogover Process
 
-This document describes how to interact with OpenAI's ChatGPT API for uploading files and sending chat prompts.
+This document describes how to interact with OpenAI's ChatGPT API to support **Cogover Process**, including uploading candidate CVs and sending chat prompts for automated evaluation.
 
 ---
 
