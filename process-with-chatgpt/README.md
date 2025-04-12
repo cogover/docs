@@ -63,12 +63,6 @@ Content-Type: application/json
 > ⚠️ Replace `YOUR_API_KEY` with your actual OpenAI API key.
 
 
-### Body
-- **Type:** application/json
-- **Content:**
-  - `purpose`: user_data
-  - `file`: File to upload
-
 ### Sample Request (using curl)
 ```
 curl https://api.openai.com/v1/chat/completions \
