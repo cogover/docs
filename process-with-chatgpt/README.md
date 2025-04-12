@@ -19,6 +19,12 @@ Authorization: Bearer YOUR_API_KEY
 
 > ⚠️ Replace `YOUR_API_KEY` with your actual OpenAI API key.
 
+### Body
+- **Type:** multipart/form-data
+- **Content:**
+  - `purpose`: user_data
+  - `file`: File to upload
+
 ### Sample Request (using curl)
 ```bash
 curl https://api.openai.com/v1/files \
@@ -54,17 +60,80 @@ Authorization: Bearer YOUR_API_KEY
 Content-Type: application/json
 ```
 
-### Sample Request (JSON body)
-```json
-{
-  "model": "gpt-4o-2024-08-06",
-  "messages": [
-    {
-      "role": "user",
-      "content": "Giới thiệu về bản thân bạn."
-    }
-  ]
-}
+> ⚠️ Replace `YOUR_API_KEY` with your actual OpenAI API key.
+
+
+### Body
+- **Type:** application/json
+- **Content:**
+  - `purpose`: user_data
+  - `file`: File to upload
+
+### Sample Request (using curl)
+```
+curl https://api.openai.com/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-4o",
+    "functions": [
+      {
+        "name": "danh_gia_ung_vien",
+        "description": "Lấy về điểm đánh giá ứng viên",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "diem_so": {
+              "type": "integer",
+              "description": "Điểm số đánh giá của ứng viên, ví dụ 8"
+            },
+            "thong_tin_ung_vien": {
+              "type": "string",
+              "description": "Thông tin ứng viên cơ bản của ứng viên, ví dụ tên, tuổi, địa chỉ"
+            },
+            "danh_gia": {
+              "type": "string",
+              "description": "Đánh giá về thông tin kinh nghiệm của ứng viên"
+            },
+            "ngay_sinh": {
+              "type": "string",
+              "description": "Ngày sinh của ứng viên trong CV, giá trị tham số có định dạng '\''yyyy-MM-dd'\''"
+            },
+            "gioi_tinh": {
+              "type": "string",
+              "description": "Giới tính của ứng viên, Nam thì nhập giá trị là '\''Nam'\'', Nữ thì nhập giá trị là '\''Nữ'\''"
+            },
+            "truong_dao_tao": {
+              "type": "string",
+              "description": "Trường đại học, cao đẳng ứng viên tốt nghiệp"
+            }
+          },
+          "required": [
+            "diem_so",
+            "thong_tin_ung_vien",
+            "danh_gia"
+          ]
+        }
+      }
+    ],
+    "messages": [
+      {
+        "role": "user",
+        "content": [
+          {
+            "type": "file",
+            "file": {
+              "file_id": "$action.Gui_file_CV_len_ChatGPT.output.body.id"
+            }
+          },
+          {
+            "type": "text",
+            "text": "Tôi đang tuyển dụng ứng viên Kế toán trưởng cho công ty về SAAS. Hãy đánh giá CV của ứng viên như file, chấm điểm và đưa ra điểm của ứng viên từ 1 đến 10. Cao nhất là 10 điểm. Đưa điểm số vào 1 tham số trong kết quả trả về. Kết quả trả về cần dạng json: 1: Thông tin ứng viên. 2 : đánh giá. 3. Điểm số: . Trong đó phần 3. Điểm số chỉ đưa lại là con số từ 1 đến 10. Hãy trả về tham số message.content là định dạng json."
+          }
+        ]
+      }
+    ]
+  }'
 ```
 
 ### Sample Response
